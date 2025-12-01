@@ -1,6 +1,6 @@
 import { verifyToken } from "../utils/auth";
-import { Request, Response, NextFunction, RequestHandler } from 'express';
-import { UnauthorizedError } from "../Errors/unauthorizedError";
+import { Request, Response, NextFunction } from "express";
+import { UnauthorizedError } from "../Errors";
 
 export function authenticated(req: Request, res: Response, next: NextFunction) {
   const authHeader = req.headers.authorization;
@@ -12,6 +12,3 @@ export function authenticated(req: Request, res: Response, next: NextFunction) {
   req.user = decoded;
   next();
 }
-
-
-

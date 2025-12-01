@@ -4,9 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const index_1 = __importDefault(require("./user/index"));
-const index_2 = __importDefault(require("./admin/index"));
+const users_1 = __importDefault(require("./users"));
+const parent_1 = __importDefault(require("./parent"));
+const admins_1 = __importDefault(require("./admins"));
 const route = (0, express_1.Router)();
-route.use('/admin', index_2.default);
-route.use('/user', index_1.default);
+route.use("/users", users_1.default);
+route.use("/admin", admins_1.default);
+route.use("/parent", parent_1.default);
 exports.default = route;

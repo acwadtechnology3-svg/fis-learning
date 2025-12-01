@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const auth_1 = require("../../controllers/parent/auth");
+const catchAsync_1 = require("../../utils/catchAsync");
+const route = (0, express_1.Router)();
+route.post("/signup", (0, catchAsync_1.catchAsync)(auth_1.parentSignup));
+route.post("/verify", (0, catchAsync_1.catchAsync)(auth_1.verifyParent));
+route.post("/login", (0, catchAsync_1.catchAsync)(auth_1.parentLogin));
+route.post("/resend-code", (0, catchAsync_1.catchAsync)(auth_1.resendParentCode));
+exports.default = route;

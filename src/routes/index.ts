@@ -1,10 +1,10 @@
 import { Router } from "express";
-import userRouter from './user/index';
-import adminRouter from './admin/index';
+import usersRoute from "./users";
+import parentRoute from "./parent";
+import adminRoute from "./admins";
 const route = Router();
-
-route.use('/admin', adminRouter);
-
-route.use('/user', userRouter);
-
+route.use("/users", usersRoute);
+route.use("/admin", adminRoute);
+route.use("/parent", parentRoute);
 export default route;
+
