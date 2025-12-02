@@ -146,6 +146,9 @@ export const plans = pgTable("plans", {
 // exams
 export const exams = pgTable("exams", {
   id: serial("id").primaryKey(),
+  createdBy: integer("created_by")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
   courseId: integer("course_id")
     .notNull()
     .references(() => courses.id, { onDelete: "cascade" }),

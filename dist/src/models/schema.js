@@ -120,6 +120,9 @@ exports.plans = (0, pg_core_1.pgTable)("plans", {
 // exams
 exports.exams = (0, pg_core_1.pgTable)("exams", {
     id: (0, pg_core_1.serial)("id").primaryKey(),
+    createdBy: (0, pg_core_1.integer)("created_by")
+        .notNull()
+        .references(() => exports.users.id, { onDelete: "cascade" }),
     courseId: (0, pg_core_1.integer)("course_id")
         .notNull()
         .references(() => exports.courses.id, { onDelete: "cascade" }),
