@@ -135,6 +135,9 @@ export const plans = pgTable("plans", {
   startDate: date("start_date").notNull(),
   endDate: date("end_date").notNull(),
   type: planTypeEnum("type").notNull(),
+  createdBy: integer("created_by")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
   courseId: integer("course_id")
     .notNull()
     .references(() => courses.id, { onDelete: "cascade" }),

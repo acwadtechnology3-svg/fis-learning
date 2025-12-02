@@ -1,5 +1,6 @@
 import { authenticated } from "../../middlewares/authenticated";
 import { authorizeRoles } from "../../middlewares/authorized";
+import PlansRoute from "./plans";
 import AuthRoute from "./auth";
 import CourseRoute from "./course";
 import MaterialsRoute from "./matrials";
@@ -13,4 +14,5 @@ route.use(
 );
 route.use("/course", CourseRoute);
 route.use("/materials", MaterialsRoute);
+route.use("/plans", PlansRoute);
 export default route;

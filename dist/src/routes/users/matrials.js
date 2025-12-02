@@ -4,6 +4,8 @@ const express_1 = require("express");
 const matrials_1 = require("../../controllers/users/matrials");
 const multer_1 = require("../../utils/multer");
 const catchAsync_1 = require("../../utils/catchAsync");
+const matrials_2 = require("../../validators/users/matrials");
+const validation_1 = require("../../middlewares/validation");
 const route = (0, express_1.Router)();
 /**
  * GET /api/users/materials/course/:courseId
@@ -15,7 +17,7 @@ route.get("/course/:courseId", (0, catchAsync_1.catchAsync)(matrials_1.getMateri
  * body: name (اختياري), courseId (إجباري)
  * form-data: file (إجباري)
  */
-route.post("/", multer_1.uploadMaterial.single("file"), // اسم الفيلد في Postman = file
+route.post("/", (0, validation_1.validate)(matrials_2.createMaterialSchema), multer_1.uploadMaterial.single("file"), // اسم الفيلد في Postman = file
 (0, catchAsync_1.catchAsync)(matrials_1.createMaterial));
 /**
  * GET /api/users/materials/:id

@@ -7,6 +7,8 @@ import {
 } from "../../controllers/users/matrials";
 import { uploadMaterial } from "../../utils/multer";
 import { catchAsync } from "../../utils/catchAsync";
+import { createMaterialSchema} from "../../validators/users/matrials";
+import { validate } from "../../middlewares/validation";
 
 const route = Router();
 
@@ -27,7 +29,7 @@ route.get(
  */
 route.post(
   "/",
-  
+  validate(createMaterialSchema),
   uploadMaterial.single("file"), // اسم الفيلد في Postman = file
   catchAsync(createMaterial)
 );

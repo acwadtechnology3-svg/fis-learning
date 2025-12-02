@@ -110,6 +110,9 @@ exports.plans = (0, pg_core_1.pgTable)("plans", {
     startDate: (0, pg_core_1.date)("start_date").notNull(),
     endDate: (0, pg_core_1.date)("end_date").notNull(),
     type: (0, exports.planTypeEnum)("type").notNull(),
+    createdBy: (0, pg_core_1.integer)("created_by")
+        .notNull()
+        .references(() => exports.users.id, { onDelete: "cascade" }),
     courseId: (0, pg_core_1.integer)("course_id")
         .notNull()
         .references(() => exports.courses.id, { onDelete: "cascade" }),
