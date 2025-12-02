@@ -19,7 +19,8 @@ app.use(cors({ origin: "*" }));
 app.use(cookieParser());
 app.use(express.json({ limit: "20mb" }));
 app.use(express.urlencoded({ extended: true, limit: "20mb" }));
-app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+// Serve static files from uploads directory (works for both dev and production)
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 app.get("/api/test", (req, res, next) => {
   res.json({ message: "API is working! notify token" });
 });

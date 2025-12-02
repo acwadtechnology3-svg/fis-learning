@@ -4,12 +4,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const authenticated_1 = require("../../middlewares/authenticated");
+const authorized_1 = require("../../middlewares/authorized");
 const auth_1 = __importDefault(require("./auth"));
+const course_1 = __importDefault(require("./course"));
+const matrials_1 = __importDefault(require("./matrials"));
 const express_1 = require("express");
-const multer_1 = __importDefault(require("multer"));
-const upload = (0, multer_1.default)();
 const route = (0, express_1.Router)();
-route.use(upload.none());
 route.use("/auth", auth_1.default);
-route.use(authenticated_1.authenticated);
+route.use(authenticated_1.authenticated, (0, authorized_1.authorizeRoles)("user"));
+route.use("/course", course_1.default);
+route.use("/materials", matrials_1.default);
 exports.default = route;

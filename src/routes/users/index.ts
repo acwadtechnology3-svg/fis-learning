@@ -1,14 +1,16 @@
 import { authenticated } from "../../middlewares/authenticated";
 import { authorizeRoles } from "../../middlewares/authorized";
 import AuthRoute from "./auth";
+import CourseRoute from "./course";
+import MaterialsRoute from "./matrials";
 import { Router } from "express";
-import multer from "multer";
-const upload = multer();
+
 const route = Router();
-route.use(upload.none());
 route.use("/auth", AuthRoute);
 route.use(
   authenticated,
+  authorizeRoles("user"),
 );
-
+route.use("/course", CourseRoute);
+route.use("/materials", MaterialsRoute);
 export default route;

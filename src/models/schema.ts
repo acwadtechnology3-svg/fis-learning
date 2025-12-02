@@ -10,6 +10,7 @@ import {
   date,
   time,
   pgEnum,
+  varchar,
 } from "drizzle-orm/pg-core";
 
 //
@@ -75,25 +76,25 @@ export const admins = pgTable("admins", {
 export const courses = pgTable("courses", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
+  createdBy: integer("created_by")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().default(sql`now()`),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().default(sql`now()`),
 });
 
-// materials
 export const materials = pgTable("materials", {
   id: serial("id").primaryKey(),
+
   courseId: integer("course_id")
     .notNull()
     .references(() => courses.id, { onDelete: "cascade" }),
-});
 
-// material_files
-export const materialFiles = pgTable("material_files", {
-  id: serial("id").primaryKey(),
-  materialId: integer("material_id")
-    .notNull()
-    .references(() => materials.id, { onDelete: "cascade" }),
-  fileUrl: text("file_url").notNull(),
+  name: varchar("name", { length: 255 }).notNull(),
+
+  filePath: text("file_path").notNull(),
+
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 // quizzes
@@ -106,7 +107,6 @@ export const quizzes = pgTable("quizzes", {
   type: quizTypeEnum("type").notNull(),
 });
 
-// quiz_materials (many-to-many بين quizzes و materials)
 export const quizMaterials = pgTable("quiz_materials", {
   id: serial("id").primaryKey(),
   quizId: integer("quiz_id")

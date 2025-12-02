@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.smsVerification = exports.emailVerification = exports.exams = exports.plans = exports.parents = exports.quizMaterials = exports.quizzes = exports.materialFiles = exports.materials = exports.courses = exports.admins = exports.users = exports.UserYearEnum = exports.quizTypeEnum = exports.quizDifficultyEnum = exports.planTypeEnum = void 0;
+exports.smsVerification = exports.emailVerification = exports.exams = exports.plans = exports.parents = exports.quizMaterials = exports.quizzes = exports.materials = exports.courses = exports.admins = exports.users = exports.UserYearEnum = exports.quizTypeEnum = exports.quizDifficultyEnum = exports.planTypeEnum = void 0;
 // src/db/schema.ts
 const drizzle_orm_1 = require("drizzle-orm");
 const pg_core_1 = require("drizzle-orm/pg-core");
@@ -60,23 +60,20 @@ exports.admins = (0, pg_core_1.pgTable)("admins", {
 exports.courses = (0, pg_core_1.pgTable)("courses", {
     id: (0, pg_core_1.serial)("id").primaryKey(),
     name: (0, pg_core_1.text)("name").notNull(),
+    createdBy: (0, pg_core_1.integer)("created_by")
+        .notNull()
+        .references(() => exports.users.id, { onDelete: "cascade" }),
     createdAt: (0, pg_core_1.timestamp)("created_at", { withTimezone: true }).notNull().default((0, drizzle_orm_1.sql) `now()`),
     updatedAt: (0, pg_core_1.timestamp)("updated_at", { withTimezone: true }).notNull().default((0, drizzle_orm_1.sql) `now()`),
 });
-// materials
 exports.materials = (0, pg_core_1.pgTable)("materials", {
     id: (0, pg_core_1.serial)("id").primaryKey(),
     courseId: (0, pg_core_1.integer)("course_id")
         .notNull()
         .references(() => exports.courses.id, { onDelete: "cascade" }),
-});
-// material_files
-exports.materialFiles = (0, pg_core_1.pgTable)("material_files", {
-    id: (0, pg_core_1.serial)("id").primaryKey(),
-    materialId: (0, pg_core_1.integer)("material_id")
-        .notNull()
-        .references(() => exports.materials.id, { onDelete: "cascade" }),
-    fileUrl: (0, pg_core_1.text)("file_url").notNull(),
+    name: (0, pg_core_1.varchar)("name", { length: 255 }).notNull(),
+    filePath: (0, pg_core_1.text)("file_path").notNull(),
+    createdAt: (0, pg_core_1.timestamp)("created_at").defaultNow().notNull(),
 });
 // quizzes
 exports.quizzes = (0, pg_core_1.pgTable)("quizzes", {
@@ -87,7 +84,6 @@ exports.quizzes = (0, pg_core_1.pgTable)("quizzes", {
     difficulty: (0, exports.quizDifficultyEnum)("difficulty").notNull(),
     type: (0, exports.quizTypeEnum)("type").notNull(),
 });
-// quiz_materials (many-to-many بين quizzes و materials)
 exports.quizMaterials = (0, pg_core_1.pgTable)("quiz_materials", {
     id: (0, pg_core_1.serial)("id").primaryKey(),
     quizId: (0, pg_core_1.integer)("quiz_id")
